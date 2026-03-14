@@ -45,25 +45,17 @@ $rank = 0;
         .logo-font { font-family: 'Space Grotesk', sans-serif; }
         body { background-color: #0b0b0b; background-image: linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
         .glass-panel { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* Pointer Glow Effect */
-        .pointer-glow {
-            position: fixed;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-            transform: translate(-50%, -50%) translateZ(-1px);
-            z-index: 1;
-            transition: opacity 0.3s ease;
-        }
         .rank-1 { background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); }
         .rank-2 { background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%); }
         .rank-3 { background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%); }
+
+        /* Page Transition */
+        .page-fade-in { animation: pageFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="min-h-screen text-white">
-    <div class="pointer-glow"></div>
-    <div class="max-w-4xl mx-auto px-6 py-10">
+<body class="min-h-screen text-white page-fade-in">
+    <div class="max-w-4xl mx-auto px-6 py-10 relative z-10">
         <div class="flex justify-between items-center mb-10 flex-wrap gap-4">
             <div class="flex items-center gap-4">
                 <a href="index.php" class="text-zinc-400 hover:text-white transition-colors">
@@ -74,13 +66,8 @@ $rank = 0;
                 </h1>
             </div>
             <div class="flex items-center gap-3">
-                <a href="index.php" class="bg-zinc-900/50 border border-zinc-800 text-emerald-500 hover:text-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:border-emerald-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-map"></i> Map
-                </a>
-                <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="bg-zinc-900/50 border border-zinc-800 text-sky-400 hover:text-sky-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] hover:border-sky-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">My profile</a>
-                <a href="index.php?logout=1" class="bg-zinc-900/50 border border-zinc-800 text-red-500 hover:text-red-400 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:border-red-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-power-off"></i> Logout
-                </a>
+                <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium">My profile</a>
+                <a href="index.php?logout=1" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl text-sm font-bold">Logout</a>
             </div>
         </div>
 
@@ -126,13 +113,5 @@ $rank = 0;
             <?php endif; ?>
         </div>
     </div>
-
-    <script>
-        const glow = document.querySelector('.pointer-glow');
-        window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
-    </script>
 </body>
 </html>

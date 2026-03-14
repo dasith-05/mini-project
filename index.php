@@ -372,7 +372,7 @@ $map_image_exists = file_exists($map_image_path);
         .pin-lost { background: linear-gradient(135deg, #ff416c, #ff4b2b); box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
         .pin-found { background: linear-gradient(135deg, #11786c, #96c93d); box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
         .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:50; align-items:center; justify-content:center; overflow-y: auto; padding: 20px; }
-        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; transition: transform 0.5s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
+        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; transition: transform 0.5s ease, filter 0.3s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
         #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(0.9) contrast(1.1) saturate(0.4) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.85; }
 
         /* Pointer Glow Effect */
@@ -386,6 +386,11 @@ $map_image_exists = file_exists($map_image_path);
             z-index: 1;
             transition: opacity 0.3s ease;
         }
+        
+        /* Glow intensity on hover */
+        .pin:hover ~ .pointer-glow,
+        .glass-panel:hover ~ .pointer-glow,
+        .modal-overlay:hover ~ .pointer-glow { opacity: 0.4; }
 
         /* Map Transition */
         .map-fade { animation: mapFadeIn 0.5s ease-out; }
@@ -705,24 +710,27 @@ $map_image_exists = file_exists($map_image_path);
             </div>
         </div>
 
-        <div class="flex gap-4 mb-8">
-            <button onclick="changeFloor('floor1')" class="px-8 py-3 rounded-xl transition-all <?php echo $current_floor=='floor1'?'bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] text-white':'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white'; ?>">Floor 01</button>
-            <button onclick="changeFloor('floor2')" class="px-8 py-3 rounded-xl transition-all <?php echo $current_floor=='floor2'?'bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] text-white':'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white'; ?>">Floor 02</button>
-            <button onclick="changeFloor('floor3')" class="px-8 py-3 rounded-xl transition-all <?php echo $current_floor=='floor3'?'bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] text-white':'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white'; ?>">Floor 03</button>
-            <button onclick="changeFloor('floor4')" class="px-8 py-3 rounded-xl transition-all <?php echo $current_floor=='floor4'?'bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] text-white':'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white'; ?>">Floor 04</button>
+        <div class="flex gap-3 mb-10 p-1.5 bg-zinc-900/40 border border-white/5 rounded-2xl backdrop-blur-xl w-fit">
+            <button onclick="changeFloor('floor1')" class="px-8 py-3 rounded-xl font-bold transition-all <?php echo $current_floor=='floor1'?'bg-sky-500 shadow-[0_0_25px_rgba(14,165,233,0.5)] text-white':'text-zinc-500 hover:text-sky-400 hover:bg-white/5'; ?>">L01</button>
+            <button onclick="changeFloor('floor2')" class="px-8 py-3 rounded-xl font-bold transition-all <?php echo $current_floor=='floor2'?'bg-sky-500 shadow-[0_0_25px_rgba(14,165,233,0.5)] text-white':'text-zinc-500 hover:text-sky-400 hover:bg-white/5'; ?>">L02</button>
+            <button onclick="changeFloor('floor3')" class="px-8 py-3 rounded-xl font-bold transition-all <?php echo $current_floor=='floor3'?'bg-sky-500 shadow-[0_0_25px_rgba(14,165,233,0.5)] text-white':'text-zinc-500 hover:text-sky-400 hover:bg-white/5'; ?>">L03</button>
+            <button onclick="changeFloor('floor4')" class="px-8 py-3 rounded-xl font-bold transition-all <?php echo $current_floor=='floor4'?'bg-sky-500 shadow-[0_0_25px_rgba(14,165,233,0.5)] text-white':'text-zinc-500 hover:text-sky-400 hover:bg-white/5'; ?>">L04</button>
         </div>
 
-        <form method="GET" class="flex flex-wrap gap-3 mb-6 items-center">
+        <form method="GET" class="flex flex-wrap gap-4 mb-8 items-center group/search">
             <input type="hidden" name="floor" value="<?php echo htmlspecialchars($current_floor); ?>">
-            <input type="text" name="filter_q" value="<?php echo htmlspecialchars($filter_q); ?>" placeholder="Search by title, description, or name..." class="flex-1 min-w-[200px] bg-zinc-900/50 border border-zinc-700/50 focus:border-sky-500 rounded-xl px-4 py-2.5 text-white placeholder-zinc-500 outline-none">
-            <select name="filter_type" class="bg-zinc-900/50 border border-zinc-700/50 focus:border-sky-500 rounded-xl px-4 py-2.5 text-white outline-none">
-                <option value="">All types</option>
-                <option value="lost" <?php echo $filter_type === 'lost' ? 'selected' : ''; ?>>Lost</option>
-                <option value="found" <?php echo $filter_type === 'found' ? 'selected' : ''; ?>>Found</option>
+            <div class="flex-1 min-w-[280px] relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sky-500/50"></i>
+                <input type="text" name="filter_q" value="<?php echo htmlspecialchars($filter_q); ?>" placeholder="Scan database for items or users..." class="w-full bg-zinc-900/40 border border-white/10 focus:border-sky-500/50 focus:ring-4 focus:ring-sky-500/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-zinc-600 outline-none transition-all backdrop-blur-md">
+            </div>
+            <select name="filter_type" class="bg-zinc-900/40 border border-white/10 focus:border-sky-500/50 rounded-2xl px-6 py-4 text-white outline-none backdrop-blur-md cursor-pointer font-medium">
+                <option value="">All Categories</option>
+                <option value="lost" <?php echo $filter_type === 'lost' ? 'selected' : ''; ?>>Status: Lost</option>
+                <option value="found" <?php echo $filter_type === 'found' ? 'selected' : ''; ?>>Status: Found</option>
             </select>
-            <button type="submit" class="bg-sky-500/80 hover:bg-sky-500 text-white px-4 py-2.5 rounded-xl font-medium">Filter</button>
+            <button type="submit" class="bg-white text-black hover:bg-sky-400 hover:text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl">Search</button>
             <?php if ($filter_q !== '' || $filter_type !== ''): ?>
-            <a href="?floor=<?php echo urlencode($current_floor); ?>" class="text-zinc-400 hover:text-white text-sm">Clear</a>
+            <a href="?floor=<?php echo urlencode($current_floor); ?>" class="text-zinc-500 hover:text-red-400 transition-colors"><i class="fa-solid fa-circle-xmark text-xl"></i></a>
             <?php endif; ?>
         </form>
 

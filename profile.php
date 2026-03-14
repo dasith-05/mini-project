@@ -83,9 +83,17 @@ $resolve_count = count($resolved_items);
             z-index: 1;
             transition: opacity 0.3s ease;
         }
+
+        /* Page Transition */
+        .page-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Page Fade Out */
+        .page-fade-out { animation: fadeOut 0.3s ease-in forwards !important; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
-<body class="min-h-screen text-white">
+<body class="min-h-screen text-white page-fade-in">
     <div class="pointer-glow"></div>
     <div class="max-w-4xl mx-auto px-6 py-10">
         <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
@@ -194,6 +202,21 @@ $resolve_count = count($resolved_items);
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
+
+        // Page Transition Logic
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', e => {
+                if (link.hostname === window.location.hostname && !link.hash && !link.href.includes('logout')) {
+                    e.preventDefault();
+                    document.body.classList.add('page-fade-out');
+                    setTimeout(() => window.location.href = link.href, 300);
+                }
+            });
+        });
+
+        window.onpageshow = function(event) {
+            if (event.persisted) document.body.classList.remove('page-fade-out');
+        };
     </script>
 </body>
 </html>
