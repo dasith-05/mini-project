@@ -207,7 +207,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
         .pin { position: absolute; width: 24px; height: 24px; border-radius: 50% 50% 50% 0; transform: translate(-50%, -100%) rotate(-45deg); cursor: pointer; z-index: 40; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid rgba(255,255,255,0.8); animation: floatPin 3s ease-in-out infinite; }
         @keyframes floatPin { 0%, 100% { margin-top: 0px; } 50% { margin-top: -8px; } }
         .pin:nth-child(odd) { animation-delay: 0.5s; animation-duration: 3.5s; }
-        .pin:hover { transform: translate(-50%, -110%) rotate(-45deg) scale(1.2); z-index: 100; animation-play-state: paused; }
+        .pin:hover { transform: translate(-50%, -110%) rotate(-45deg) scale(1.2); z-index: 9999; animation-play-state: paused; }
         .pin-lost { background: linear-gradient(135deg, #ff416c, #ff4b2b); box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
         .pin-found { background: linear-gradient(135deg, #11786c, #96c93d); box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
         .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:50; align-items:center; justify-content:center; overflow-y: auto; padding: 20px; }
@@ -216,7 +216,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
         #mainMap { transition: transform 0.5s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
 
         /* Pointer Glow Effect */
-        #pointer-glow {
+        .pointer-glow {
             position: fixed;
             width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
@@ -265,14 +265,14 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
         @keyframes slowFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Hover Popup Styles */
-        .pin-popup { display: none; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%); z-index: 110; width: 260px; pointer-events: none; }
+        .pin-popup { display: none; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%); z-index: 10000; width: 260px; pointer-events: none; }
         .pin:hover .pin-popup { display: block; }
         .popup-content { transform: rotate(45deg); background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); }
     </style>
 </head>
 <body class="bg-zinc-950 text-white min-h-screen overflow-x-hidden relative scroll-smooth">
     <div id="landing" class="page-section <?php echo isset($_SESSION['user_id']) ? 'hidden' : ''; ?> min-h-screen flex flex-col items-center justify-center relative">
-        <div id="pointer-glow"></div>
+        <div class="pointer-glow"></div>
         
         <!-- Floating Background Elements -->
         <div class="floating-text text-4xl" style="top: 15%; left: 10%; --duration: 20s; --rx: 40px; --ry: 60px; --rd: 12deg;"><i class="fa-solid fa-key"></i></div>
@@ -374,7 +374,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <div id="signin" class="page-section <?php echo (isset($_SESSION['user_id']) || (isset($auth_type) && $auth_type == 'success')) ? 'hidden' : ''; ?> min-h-screen flex items-center justify-center p-6 relative">
-        <div id="pointer-glow"></div>
+        <div class="pointer-glow"></div>
 
         <!-- Floating Background Elements -->
         <div class="floating-text text-4xl" style="top: 15%; left: 10%; --duration: 20s; --rx: 40px; --ry: 60px; --rd: 12deg;"><i class="fa-solid fa-key"></i></div>
@@ -437,7 +437,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <div id="signup" class="page-section hidden fixed inset-0 z-[100] min-h-screen flex items-center justify-center p-6 overflow-y-auto">
-        <div id="pointer-glow"></div>
+        <div class="pointer-glow"></div>
 
         <!-- Floating Background Elements -->
         <div class="floating-text text-4xl" style="top: 15%; left: 10%; --duration: 20s; --rx: 40px; --ry: 60px; --rd: 12deg;"><i class="fa-solid fa-user-plus"></i></div>
@@ -504,7 +504,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php if (isset($_SESSION['user_id'])): ?>
     <div id="dashboard" class="page-section min-h-screen p-8">
-        <div id="pointer-glow"></div>
+        <div class="pointer-glow"></div>
         <div class="max-w-6xl mx-auto relative z-10">
         
         <?php if (isset($_SESSION['auth_success'])): ?>
@@ -545,7 +545,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
             <button onclick="changeFloor('floor4')" class="px-8 py-3 rounded-xl transition-all <?php echo $current_floor=='floor4'?'bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] text-white':'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white'; ?>">Floor 04</button>
         </div>
 
-        <div id="mapWrapper" class="map-fade relative inline-block border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl bg-[#0a0f1d] group">
+        <div id="mapWrapper" class="map-fade relative inline-block border border-white/10 rounded-[2rem] shadow-2xl bg-[#0a0f1d] group">
             <img src="<?php echo htmlspecialchars($current_floor); ?>.jpg" id="mainMap" class="w-full h-auto block" alt="Floor Map">
             
             <?php 
@@ -713,7 +713,7 @@ $display_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <script>
         // 0. Pointer Glow Logic
-        const glows = document.querySelectorAll('#pointer-glow');
+        const glows = document.querySelectorAll('.pointer-glow');
         window.addEventListener('mousemove', (e) => {
             glows.forEach(glow => {
                 glow.style.left = e.clientX + 'px';
