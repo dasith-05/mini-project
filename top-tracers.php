@@ -1,0 +1,113 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/includes/logger.php';
+require_once __DIR__ . '/config.php';
+
+try {
+    $db = new PDO('sqlite:' . DB_PATH);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    log_error('Database connection failed', ['error' => $e->getMessage()]);
+    header('HTTP/1.1 503 Service Unavailable');
+    exit('Service temporarily unavailable.');
+}
+
+// Require login to view leaderboard
+if (empty($_SESSION['user_id'])) {
+    header('Location: index.php');
+    exit();
+}
+
+$stmt = $db->query("
+    SELECT u.id, u.name, u.student_id, COUNT(i.id) AS resolve_count
+    FROM users u
+    INNER JOIN items i ON i.resolved_by_user_id = u.id AND i.status = 'resolved'
+    GROUP BY u.id
+    ORDER BY resolve_count DESC
+    LIMIT 50
+");
+$top_tracers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$rank = 0;
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Tracers • TraceIt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .logo-font { font-family: 'Space Grotesk', sans-serif; }
+        body { background-color: #0c4a6e; background-image: linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
+        .glass-panel { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .rank-1 { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+        .rank-2 { background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); }
+        .rank-3 { background: linear-gradient(135deg, #b45309 0%, #92400e 100%); }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="max-w-4xl mx-auto px-6 py-10">
+        <div class="flex justify-between items-center mb-10 flex-wrap gap-4">
+            <div class="flex items-center gap-4">
+                <a href="index.php" class="text-zinc-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-arrow-left text-xl"></i>
+                </a>
+                <h1 class="logo-font text-4xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-sky-500/50">
+                    Top Tracers
+                </h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium">My profile</a>
+                <a href="index.php?logout=1" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl text-sm font-bold">Logout</a>
+            </div>
+        </div>
+
+        <p class="text-zinc-400 mb-8">Users who have returned the most items to their owners. Thank you for helping the campus!</p>
+
+        <div class="glass-panel rounded-2xl border border-white/10 overflow-hidden">
+            <?php if (empty($top_tracers)): ?>
+                <div class="p-12 text-center text-zinc-500">
+                    <i class="fa-solid fa-trophy text-5xl mb-4 opacity-50"></i>
+                    <p class="text-lg font-medium">No tracers yet</p>
+                    <p class="text-sm mt-1">Be the first to return an item and claim a spot here.</p>
+                    <a href="index.php" class="inline-block mt-4 bg-sky-500 hover:bg-sky-400 text-white px-6 py-3 rounded-xl font-bold">Go to map</a>
+                </div>
+            <?php else: ?>
+                <ul class="divide-y divide-white/5">
+                    <?php foreach ($top_tracers as $row): $rank++; ?>
+                        <li class="flex items-center gap-6 p-5 hover:bg-white/5 transition-colors">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shrink-0
+                                <?php
+                                if ($rank === 1) echo 'rank-1 text-black';
+                                elseif ($rank === 2) echo 'rank-2 text-white';
+                                elseif ($rank === 3) echo 'rank-3 text-amber-100';
+                                else echo 'bg-zinc-700/80 text-zinc-300';
+                                ?>">
+                                <?php echo $rank; ?>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <a href="profile.php?id=<?php echo (int) $row['id']; ?>" class="font-bold text-white hover:text-sky-400 hover:underline truncate block">
+                                    <?php echo htmlspecialchars($row['name']); ?>
+                                </a>
+                                <p class="text-zinc-500 text-sm"><?php echo htmlspecialchars($row['student_id']); ?></p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="text-2xl font-bold text-emerald-400"><?php echo (int) $row['resolve_count']; ?></span>
+                                <span class="text-zinc-500 text-sm block">item<?php echo (int)$row['resolve_count'] !== 1 ? 's' : ''; ?> returned</span>
+                            </div>
+                            <a href="profile.php?id=<?php echo (int) $row['id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium shrink-0">
+                                View profile <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+</body>
+</html>
