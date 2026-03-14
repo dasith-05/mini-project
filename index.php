@@ -885,7 +885,7 @@ $map_image_exists = file_exists($map_image_path);
         </div>
     </div>
 
-    <footer class="relative z-10 pt-20 pb-10 border-t border-white/5 backdrop-blur-md">
+  <footer class="relative z-10 pt-20 pb-10 border-t border-white/5 backdrop-blur-md bg-[#0b0b0b]">
         <div class="max-w-6xl mx-auto px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
                 <div class="space-y-4">
@@ -897,9 +897,9 @@ $map_image_exists = file_exists($map_image_path);
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Development Team</h4>
                     <ul class="text-zinc-400 text-sm space-y-2">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-zinc-600"></i> Prompter</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-zinc-600"></i> Typist</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-zinc-600"></i> Tester</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-sky-500/50"></i> Prompter</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-sky-500/50"></i> Typist</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-sky-500/50"></i> Tester</li>
                     </ul>
                 </div>
                 <div class="space-y-4">
@@ -919,7 +919,6 @@ $map_image_exists = file_exists($map_image_path);
             </div>
         </div>
     </footer>
-
     <script>
         // 0. Pointer Glow Logic
         const glows = document.querySelectorAll('.pointer-glow');

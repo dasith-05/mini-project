@@ -196,6 +196,41 @@ $resolve_count = count($resolved_items);
         </div>
     </div>
 
+    <footer class="relative z-10 pt-20 pb-10 border-t border-white/5 backdrop-blur-md bg-[#0b0b0b]">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                <div class="space-y-4">
+                    <h3 onclick="window.location.href='index.php'" class="logo-font text-2xl font-bold text-white cursor-pointer">TraceIt<span class="text-sky-500">.</span></h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        The next generation of campus lost and found. Leveraging precision mapping and secure OTP verification to reunite students with their essentials.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Development Team</h4>
+                    <ul class="text-zinc-400 text-sm space-y-2">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-sky-500/50"></i> Prompter</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-sky-500/50"></i> Typist</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-sky-500/50"></i> Tester</li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Project Info</h4>
+                    <p class="text-zinc-400 text-sm">
+                        Mini Project 2026<br>
+                        Computer Science Department<br>
+                        Campus Recovery Network v2.0<br>
+                        By Group 21.
+                    </p>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-center">
+                <p class="text-zinc-600 text-[10px] tracking-[0.3em] uppercase font-medium">
+                    &copy; <?php echo date("Y"); ?> TraceIt Campus Recovery System. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const glow = document.querySelector('.pointer-glow');
         window.addEventListener('mousemove', (e) => {
