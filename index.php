@@ -8,6 +8,28 @@ require_once __DIR__ . '/includes/validation.php';
 require_once __DIR__ . '/includes/otp_rate_limit.php';
 require_once __DIR__ . '/includes/otp_crypto.php';
 
+// #region agent log helper
+function agent_log(string $hypothesisId, string $location, string $message, array $data = [], string $runId = 'pre-fix'): void {
+    $logDir = __DIR__ . '/.cursor';
+    if (!is_dir($logDir)) {
+        @mkdir($logDir, 0755, true);
+    }
+    $payload = [
+        'sessionId' => 'e1c426',
+        'id' => 'log_' . uniqid('', true),
+        'timestamp' => (int) round(microtime(true) * 1000),
+        'location' => $location,
+        'message' => $message,
+        'data' => $data,
+        'runId' => $runId,
+        'hypothesisId' => $hypothesisId,
+    ];
+    $line = json_encode($payload) . PHP_EOL;
+    $logPath = $logDir . '/debug-e1c426.log';
+    @file_put_contents($logPath, $line, FILE_APPEND | LOCK_EX);
+}
+// #endregion agent log helper
+
 try {
     $db = new PDO('sqlite:' . DB_PATH);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -26,6 +48,11 @@ try {
 }
 
 csrf_ensure_token();
+agent_log('INIT', 'index.php:INIT', 'Request start', [
+    'method' => $_SERVER['REQUEST_METHOD'] ?? '',
+    'has_login_submit' => isset($_POST['login_submit']),
+    'has_signup_submit' => isset($_POST['signup_submit']),
+]);
 $auth_message = '';
 $auth_type = '';
 
@@ -69,27 +96,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup_submit'])) {
 
 // LOGIN
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
+    agent_log('H1', 'index.php:LOGIN_ENTRY', 'Login submit received', [
+        'has_csrf' => array_key_exists(CSRF_TOKEN_NAME, $_POST),
+        'student_id_len' => isset($_POST['student_id']) ? strlen((string) $_POST['student_id']) : null,
+    ]);
     if (!csrf_validate()) {
+        agent_log('H1', 'index.php:LOGIN_CSRF_FAIL', 'CSRF validation failed on login', []);
         $auth_message = 'Invalid request. Please try again.';
         $auth_type = 'error';
         echo "<script>window.onload = function() { showPage('signin'); }</script>";
     } else {
         $errors = validate_login($_POST);
         if (!empty($errors)) {
+            agent_log('H2', 'index.php:LOGIN_VALIDATION_FAIL', 'Login validation errors', ['errors' => $errors]);
             $auth_message = $errors[0];
             $auth_type = 'error';
             echo "<script>window.onload = function() { showPage('signin'); }</script>";
         } else {
+            agent_log('H3', 'index.php:LOGIN_BEFORE_QUERY', 'Attempting DB lookup for login', [
+                'student_id_trimmed' => trim($_POST['student_id']),
+            ]);
             $stmt = $db->prepare("SELECT * FROM users WHERE student_id = ?");
             $stmt->execute([trim($_POST['student_id'])]);
             $user = $stmt->fetch();
-            if ($user && password_verify($_POST['password'], $user['password'])) {
+            $pwOk = $user && password_verify($_POST['password'], $user['password']);
+            agent_log('H3', 'index.php:LOGIN_AFTER_QUERY', 'DB lookup result', [
+                'user_found' => (bool) $user,
+                'password_ok' => $pwOk,
+            ]);
+            if ($pwOk) {
                 session_regenerate_id(true);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
+                agent_log('H4', 'index.php:LOGIN_SUCCESS', 'Login successful; redirecting', [
+                    'user_id' => (int) $user['id'],
+                ]);
                 header('Location: index.php');
                 exit();
             }
+            agent_log('H4', 'index.php:LOGIN_FAILURE', 'Login failed (invalid credentials)', []);
             $auth_message = 'Invalid Student ID or Password.';
             $auth_type = 'error';
             echo "<script>window.onload = function() { showPage('signin'); }</script>";
@@ -912,9 +957,62 @@ $map_image_exists = file_exists($map_image_path);
 
         function showLoading(form, buttonId) {
             const btn = document.getElementById(buttonId);
+            // #region agent log
+            if (buttonId === 'login_btn') {
+                try {
+                    fetch('http://127.0.0.1:7745/ingest/ed7db141-a736-420f-a36f-26ffb5af6163', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Debug-Session-Id': 'e1c426',
+                        },
+                        body: JSON.stringify({
+                            sessionId: 'e1c426',
+                            location: 'index.php:showLoading',
+                            message: 'Login button showLoading triggered',
+                            data: {
+                                formHasAction: !!form.getAttribute('action'),
+                                method: form.method || '',
+                            },
+                            runId: 'pre-fix',
+                            hypothesisId: 'H5',
+                            timestamp: Date.now(),
+                        }),
+                    }).catch(() => {});
+                } catch (e) {}
+            }
+            // #endregion agent log
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
             btn.classList.add('opacity-80', 'cursor-not-allowed');
         }
+
+        // #region agent log: login button click
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login_btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    try {
+                        fetch('http://127.0.0.1:7745/ingest/ed7db141-a736-420f-a36f-26ffb5af6163', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Debug-Session-Id': 'e1c426',
+                            },
+                            body: JSON.stringify({
+                                sessionId: 'e1c426',
+                                location: 'index.php:login_btn_click',
+                                message: 'Login button clicked',
+                                data: {},
+                                runId: 'pre-fix',
+                                hypothesisId: 'H5',
+                                timestamp: Date.now(),
+                            }),
+                        }).catch(() => {});
+                    } catch (e) {}
+                });
+            }
+        });
+        // #endregion agent log
 
         function changeFloor(floor) {
             const wrapper = document.getElementById('mapWrapper');
