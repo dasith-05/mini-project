@@ -690,17 +690,17 @@ $map_image_exists = file_exists($map_image_path);
                 <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 ml-2 font-sans align-middle opacity-70">v2.0</span>
             </h1>
             <div class="flex items-center gap-4 flex-wrap">
-                <a href="top-tracers.php" class="bg-sky-500/10 text-sky-400 hover:bg-sky-500 hover:text-white px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2 border border-sky-500/20">
+                <a href="top-tracers.php" class="h-[54px] bg-zinc-900/50 border border-zinc-800 text-sky-400 hover:text-sky-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] hover:border-sky-500/50 px-4 rounded-2xl transition-all text-sm font-bold flex items-center gap-2 backdrop-blur-md">
                     <i class="fa-solid fa-trophy text-amber-400 group-hover:text-white"></i> Top Tracers
                 </a>
-                <div class="flex items-center gap-6 bg-zinc-900/50 border border-zinc-800 p-2 pl-5 rounded-2xl backdrop-blur-md">
+                <div onclick="window.location.href='profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>'" class="h-[54px] flex items-center gap-6 bg-zinc-900/40 border border-sky-500/20 p-2 pl-5 rounded-2xl backdrop-blur-xl shadow-[0_0_20px_rgba(14,165,233,0.1)] relative overflow-hidden group/user cursor-pointer">
+                    <div class="absolute inset-0 bg-gradient-to-r from-sky-500/5 to-transparent opacity-0 group-hover/user:opacity-100 transition-opacity"></div>
                     <div class="flex flex-col">
-                        <span class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Active User</span>
-                        <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 font-semibold hover:text-sky-300 hover:underline"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                        <span class="text-[9px] uppercase tracking-[0.2em] text-sky-500/70 font-black">Authorized Entity</span>
+                        <span class="text-white font-bold group-hover/user:text-sky-400 transition-colors flex items-center gap-2"><?php echo htmlspecialchars($_SESSION['user_name']); ?> <i class="fa-solid fa-circle-check text-[10px] text-emerald-500 animate-pulse"></i></span>
                     </div>
-                    <a href="?logout=1" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-power-off"></i> Logout
-                    </a>
+                    <a href="index.php?logout=1" onclick="event.stopPropagation();" class="h-full bg-zinc-950/50 border border-white/5 text-zinc-500 hover:text-red-500 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] px-4 rounded-xl transition-all text-xs font-black uppercase tracking-tighter flex items-center gap-2 group/out">
+                        <i class="fa-solid fa-arrow-right-from-bracket group-hover/out:translate-x-1 transition-transform"></i></a>
                 </div>
             </div>
         </div>

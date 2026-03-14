@@ -70,11 +70,23 @@ $resolve_count = count($resolved_items);
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .logo-font { font-family: 'Space Grotesk', sans-serif; }
-        body { background-color: #0c4a6e; background-image: linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
+        body { background-color: #0f0f10; background-image: linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
         .glass-panel { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* Pointer Glow Effect */
+        .pointer-glow {
+            position: fixed;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+            transform: translate(-50%, -50%) translateZ(-1px);
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body class="min-h-screen text-white">
+    <div class="pointer-glow"></div>
     <div class="max-w-4xl mx-auto px-6 py-10">
         <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
             <div class="flex items-center gap-4">
@@ -88,12 +100,19 @@ $resolve_count = count($resolved_items);
                 <?php if (!$is_own_profile): ?>
                     <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium">My profile</a>
                 <?php endif; ?>
-                <a href="index.php" class="text-zinc-400 hover:text-white text-sm">Map</a>
-                <a href="top-tracers.php" class="text-amber-400 hover:text-amber-300 text-sm">Top Tracers</a>
-                <a href="index.php?logout=1" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl text-sm font-bold">Logout</a>
+                <a href="index.php" class="bg-zinc-900/50 border border-zinc-800 text-emerald-500 hover:text-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:border-emerald-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-map"></i> Map
+                </a>
+                <a href="top-tracers.php" class="bg-zinc-900/50 border border-zinc-800 text-sky-400 hover:text-sky-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] hover:border-sky-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> Top Tracers
+                </a>
+                <a href="index.php?logout=1" class="bg-zinc-900/50 border border-zinc-800 text-red-500 hover:text-red-400 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:border-red-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-power-off"></i> Logout
+                </a>
             </div>
             <?php endif; ?>
         </div>
+        
 
         <div class="glass-panel rounded-2xl border border-white/10 p-8 mb-8">
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -168,5 +187,13 @@ $resolve_count = count($resolved_items);
             </div>
         </div>
     </div>
+
+    <script>
+        const glow = document.querySelector('.pointer-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+    </script>
 </body>
 </html>
