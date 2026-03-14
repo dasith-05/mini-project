@@ -327,9 +327,8 @@ $map_image_exists = file_exists($map_image_path);
         .pin-lost { background: linear-gradient(135deg, #ff416c, #ff4b2b); box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
         .pin-found { background: linear-gradient(135deg, #11786c, #96c93d); box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
         .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:50; align-items:center; justify-content:center; overflow-y: auto; padding: 20px; }
-        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; }
+        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; transition: transform 0.5s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
         #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(0.9) contrast(1.1) saturate(0.4) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.85; }
-        #mainMap { transition: transform 0.5s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
 
         /* Pointer Glow Effect */
         .pointer-glow {
@@ -521,7 +520,7 @@ $map_image_exists = file_exists($map_image_path);
             <?php endif; ?>
 
             <?php if ($auth_message && isset($_POST['login_submit'])): ?>
-                <div class="mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3 animate-item <?php echo $auth_type == 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'; ?>">
+                <div class="mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3 animate-item <?php echo $auth_type == 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-sky-500/10 text-sky-400 border border-sky-500/20'; ?>">
                     <i class="fa-solid <?php echo $auth_type == 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'; ?>"></i>
                     <?php echo $auth_message; ?>
                 </div>
@@ -582,7 +581,7 @@ $map_image_exists = file_exists($map_image_path);
             </div>
 
             <?php if ($auth_message && isset($_POST['signup_submit'])): ?>
-                <div class="mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3 animate-item <?php echo $auth_type == 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'; ?>">
+                <div class="mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3 animate-item <?php echo $auth_type == 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-sky-500/10 text-sky-400 border border-sky-500/20'; ?>">
                     <i class="fa-solid <?php echo $auth_type == 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'; ?>"></i>
                     <?php echo $auth_message; ?>
                 </div>
@@ -626,7 +625,7 @@ $map_image_exists = file_exists($map_image_path);
         <div class="max-w-6xl mx-auto relative z-10">
         
         <?php if (isset($_SESSION['auth_success'])): ?>
-            <div class="mb-6 p-4 rounded-2xl text-sm font-medium flex items-center justify-between gap-3 animate-item bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 backdrop-blur-md">
+            <div class="mb-6 p-4 rounded-2xl text-sm font-medium flex items-center justify-between gap-3 animate-item bg-sky-500/10 text-sky-400 border border-sky-500/20 backdrop-blur-md">
                 <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check"></i> <?php echo $_SESSION['auth_success']; ?></div>
                 <button onclick="this.parentElement.remove()" class="opacity-50 hover:opacity-100"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -646,8 +645,8 @@ $map_image_exists = file_exists($map_image_path);
                 <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 ml-2 font-sans align-middle opacity-70">v2.0</span>
             </h1>
             <div class="flex items-center gap-4 flex-wrap">
-                <a href="top-tracers.php" class="bg-amber-500/10 text-amber-400 hover:bg-amber-500 hover:text-white px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2 border border-amber-500/20">
-                    <i class="fa-solid fa-trophy"></i> Top Tracers
+                <a href="top-tracers.php" class="bg-sky-500/10 text-sky-400 hover:bg-sky-500 hover:text-white px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2 border border-sky-500/20">
+                    <i class="fa-solid fa-trophy text-amber-400 group-hover:text-white"></i> Top Tracers
                 </a>
                 <div class="flex items-center gap-6 bg-zinc-900/50 border border-zinc-800 p-2 pl-5 rounded-2xl backdrop-blur-md">
                     <div class="flex flex-col">
@@ -691,7 +690,7 @@ $map_image_exists = file_exists($map_image_path);
                     <i class="fa-solid fa-map-location-dot text-5xl mb-4 opacity-50"></i>
                     <p class="font-medium">Map for this floor is not available.</p>
                     <p class="text-sm mt-1">Add <?php echo htmlspecialchars($current_floor); ?>.jpg to view the map.</p>
-                    <button type="button" onclick="document.getElementById('rx').value=50; document.getElementById('ry').value=50; document.getElementById('reportModal').style.display='flex';" class="mt-4 bg-emerald-500/80 hover:bg-emerald-500 text-white px-6 py-3 rounded-xl font-medium">Report item on this floor</button>
+                    <button type="button" onclick="document.getElementById('rx').value=50; document.getElementById('ry').value=50; document.getElementById('reportModal').style.display='flex';" class="mt-4 bg-sky-500/80 hover:bg-sky-500 text-white px-6 py-3 rounded-xl font-medium">Report item on this floor</button>
                 </div>
             </div>
             <?php endif; ?>
@@ -740,7 +739,7 @@ $map_image_exists = file_exists($map_image_path);
                             <div class="mt-3 flex flex-col gap-1">
                                 <div class="flex items-center gap-2 text-[10px] text-zinc-300">
                                     <i class="fa-solid fa-user text-sky-400/70"></i>
-                                    <a href="profile.php?id=<?php echo (int) $item['user_id']; ?>" class="text-sky-400 hover:underline truncate"><?php echo htmlspecialchars($item['owner_name']); ?></a>
+                                    <a href="profile.php?id=<?php echo (int) $item['user_id']; ?>" onclick="event.stopPropagation();" class="text-sky-400 hover:underline truncate"><?php echo htmlspecialchars($item['owner_name']); ?></a>
                                 </div>
                                 <div class="flex items-center gap-2 text-[10px] text-zinc-300">
                                     <i class="fa-solid fa-phone text-emerald-400/70"></i>
@@ -768,13 +767,13 @@ $map_image_exists = file_exists($map_image_path);
             </div>
 
             <div id="otpForm" class="hidden space-y-3">
-                <p class="text-emerald-400 text-xs font-medium mb-1"><i class="fa-solid fa-handshake"></i> <span id="dt-otp-instruction">Verify with the owner's OTP:</span></p>
+                <p class="text-sky-400 text-xs font-medium mb-1"><i class="fa-solid fa-handshake"></i> <span id="dt-otp-instruction">Verify with the owner's OTP:</span></p>
                 <form method="POST" class="space-y-4">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="item_id" id="dt-id">
                 <input type="hidden" name="floor" value="<?php echo htmlspecialchars($current_floor); ?>">
                 <input type="text" name="entered_otp" placeholder="Enter 6-digit OTP from owner" class="w-full bg-zinc-800 border border-zinc-700 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-2xl p-4 text-white outline-none transition-all" required maxlength="8" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
-                <button type="submit" name="verify_otp" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-2xl font-bold text-lg transition-colors shadow-lg shadow-emerald-500/20">Claim & Resolve Item</button>
+                <button type="submit" name="verify_otp" class="w-full bg-sky-500 hover:bg-sky-400 text-white py-4 rounded-2xl font-bold text-lg transition-colors shadow-lg shadow-sky-500/20">Claim & Resolve Item</button>
                 </form>
             </div>
             
@@ -819,15 +818,15 @@ $map_image_exists = file_exists($map_image_path);
                 <input type="hidden" name="y_pos" id="ry">
                 <input type="hidden" name="floor" value="<?php echo htmlspecialchars($current_floor); ?>">
                 
-                <input type="text" name="title" placeholder="What is the item?" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl px-5 py-4 text-white outline-none transition-all" required>
-                <textarea name="description" placeholder="Short description (color, brand)" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl px-5 py-4 text-white outline-none transition-all resize-none h-24"></textarea>
+                <input type="text" name="title" placeholder="What is the item?" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-5 py-4 text-white outline-none transition-all" required>
+                <textarea name="description" placeholder="Short description (color, brand)" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-5 py-4 text-white outline-none transition-all resize-none h-24"></textarea>
                 
-                <select name="item_type" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl px-5 py-4 text-white outline-none transition-all appearance-none cursor-pointer">
+                <select name="item_type" class="w-full bg-zinc-900/50 border border-zinc-700/50 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-5 py-4 text-white outline-none transition-all appearance-none cursor-pointer">
                     <option value="lost">I Lost This Item</option>
                     <option value="found">I Found This Item</option>
                 </select>
                 
-                <button type="submit" name="save_item" id="report_btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-lg shadow-emerald-500/20 mt-2">Pin to Map</button>
+                <button type="submit" name="save_item" id="report_btn" class="w-full bg-sky-500 hover:bg-sky-400 text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-lg shadow-sky-500/20 mt-2">Pin to Map</button>
             </form>
             <button onclick="closeModals()" class="w-full mt-4 text-zinc-500 hover:text-white transition-colors">Cancel</button>
         </div>
