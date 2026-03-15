@@ -900,8 +900,8 @@ $map_image_exists = file_exists($map_image_path);
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Project Info</h4>
                     <p class="text-zinc-400 text-sm">
-                        Mini Project 2026<br>
-                        Computer Science Department<br>
+                        <b>Mini Project 2026</b><br>
+                        University of Colombo School of Computing<br>
                         Campus Recovery Network v2.0<br>
                         By Group 21.
                     </p>
@@ -909,7 +909,7 @@ $map_image_exists = file_exists($map_image_path);
             </div>
             <div class="pt-8 border-t border-white/5 text-center">
                 <p class="text-zinc-600 text-[10px] tracking-[0.3em] uppercase font-medium">
-                    &copy; <?php echo date("Y"); ?> TraceIt Campus Recovery System. All Rights Reserved.
+                    &copy; <?php echo date("Y"); ?> TraceIt Campus Recovery System. @ All Rights Reserved.
                 </p>
             </div>
         </div>
