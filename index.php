@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup_submit'])) {
                     $stmt->execute([trim($_POST['name']), trim($_POST['student_id']), trim($_POST['contact']), $hash]);
                     $auth_message = 'Account created! You can now sign in.';
                     $auth_type = 'success';
-                    echo "<script>window.onload = function() { window.location.hash = 'signin'; }</script>";
+                    echo "<script>window.onload = function() { window.location.href = 'index.php?show=signin'; }</script>";
                 }
             } catch (PDOException $e) {
                 log_error('Signup failed', ['error' => $e->getMessage()]);
@@ -163,7 +163,7 @@ if (isset($_POST['save_item']) && isset($_SESSION['user_id'])) {
                 $user_stmt = $db->prepare("SELECT contact FROM users WHERE id = ?");
                 $user_stmt->execute([$_SESSION['user_id']]);
                 $user_contact = $user_stmt->fetchColumn();
-                $otp = (string) random_int(100000, 999999);
+                $otp = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
                 $otp_stored = otp_encrypt($otp);
                 $stmt = $db->prepare("INSERT INTO items (user_id, title, description, item_type, x_pos, y_pos, floor, contact, otp_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$_SESSION['user_id'], $_POST['title'], $_POST['description'], $_POST['item_type'], $_POST['x_pos'], $_POST['y_pos'], $_POST['floor'], $user_contact, $otp_stored]);
@@ -372,7 +372,7 @@ $map_image_exists = file_exists($map_image_path);
         .pin-lost { background: linear-gradient(135deg, #ff416c, #ff4b2b); box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
         .pin-found { background: linear-gradient(135deg, #11786c, #96c93d); box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
         .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:50; align-items:center; justify-content:center; overflow-y: auto; padding: 20px; }
-        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; transition: transform 0.5s ease, filter 0.3s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
+        #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(1.1) contrast(1.1) saturate(0.6) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.9; transition: transform 0.5s ease; border: 1px solid rgba(56, 189, 248, 0.2); }
         #mainMap { cursor: default; filter: invert(1) hue-rotate(195deg) brightness(0.9) contrast(1.1) saturate(0.4) drop-shadow(0 0 25px rgba(56, 189, 248, 0.15)); opacity: 0.85; }
 
         /* Pointer Glow Effect */
@@ -386,11 +386,6 @@ $map_image_exists = file_exists($map_image_path);
             z-index: 1;
             transition: opacity 0.3s ease;
         }
-        
-        /* Glow intensity on hover */
-        .pin:hover ~ .pointer-glow,
-        .glass-panel:hover ~ .pointer-glow,
-        .modal-overlay:hover ~ .pointer-glow { opacity: 0.4; }
 
         /* Map Transition */
         .map-fade { animation: mapFadeIn 0.5s ease-out; }
@@ -885,7 +880,7 @@ $map_image_exists = file_exists($map_image_path);
         </div>
     </div>
 
-  <footer class="relative z-10 pt-20 pb-10 border-t border-white/5 backdrop-blur-md bg-[#0b0b0b]">
+    <footer class="relative z-10 pt-20 pb-10 border-t border-white/5 backdrop-blur-md">
         <div class="max-w-6xl mx-auto px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
                 <div class="space-y-4">
@@ -897,9 +892,9 @@ $map_image_exists = file_exists($map_image_path);
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Development Team</h4>
                     <ul class="text-zinc-400 text-sm space-y-2">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-sky-500/50"></i> Prompter</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-sky-500/50"></i> Typist</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-sky-500/50"></i> Tester</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-zinc-600"></i> Prompter</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-zinc-600"></i> Typist</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-zinc-600"></i> Tester</li>
                     </ul>
                 </div>
                 <div class="space-y-4">
@@ -919,6 +914,7 @@ $map_image_exists = file_exists($map_image_path);
             </div>
         </div>
     </footer>
+
     <script>
         // 0. Pointer Glow Logic
         const glows = document.querySelectorAll('.pointer-glow');
@@ -947,6 +943,14 @@ $map_image_exists = file_exists($map_image_path);
             const el = document.getElementById(page);
             if (el) el.scrollIntoView({behavior: 'smooth'});
         }
+
+        // Handle redirect from signup
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('show') === 'signin') {
+                showPage('signin');
+            }
+        });
 
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId);
