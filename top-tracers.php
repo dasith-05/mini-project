@@ -155,9 +155,9 @@ $rank = 0;
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Development Team</h4>
                     <ul class="text-zinc-400 text-sm space-y-2">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-sky-500/50"></i> Prompter</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-sky-500/50"></i> Typist</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-sky-500/50"></i> Tester</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-sky-500/50"></i> Prompter : 25001106 , 25002032 , 25002042</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-zinc-600"></i> Typist : 25001140 , 25001221 , 25001181</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-zinc-600"></i> Tester : 25001120 , 25002035 , 25001215</li>
                     </ul>
                 </div>
                 <div class="space-y-4">
@@ -165,7 +165,7 @@ $rank = 0;
                     <p class="text-zinc-400 text-sm">
                         Mini Project 2026<br>
                         Computer Science Department<br>
-                        Campus Recovery Network v2.0<br>
+                        Campus Recovery Network v1.0<br>
                         By Group 21.
                     </p>
                 </div>

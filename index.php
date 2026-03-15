@@ -696,7 +696,7 @@ $map_image_exists = file_exists($map_image_path);
         <div class="flex justify-between items-center mb-10 flex-wrap gap-4">
             <h1 onclick="window.location.href='index.php'" class="logo-font text-5xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-sky-500/50 drop-shadow-[0_0_15px_rgba(14,165,233,0.3)] cursor-pointer">
                 TraceIt <span class="text-sky-500/80">.</span>
-                <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 ml-2 font-sans align-middle opacity-70">v2.0</span>
+                <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 ml-2 font-sans align-middle opacity-70">v1.0</span>
                 <span class="block text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mt-1 opacity-80">Lost. Found. Secured.</span>
             </h1>
             <div class="flex items-center gap-4 flex-wrap">
@@ -902,9 +902,9 @@ $map_image_exists = file_exists($map_image_path);
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-sky-500">Development Team</h4>
                     <ul class="text-zinc-400 text-sm space-y-2">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-zinc-600"></i> Prompter</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-zinc-600"></i> Typist</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-zinc-600"></i> Tester</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-terminal text-[10px] text-zinc-600"></i> Prompter : 25001106 , 25002032 , 25002042</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-[10px] text-zinc-600"></i> Typist : 25001140 , 25001221 , 25001181</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-vial text-[10px] text-zinc-600"></i> Tester : 25001120 , 25002035 , 25001215</li>
                     </ul>
                 </div>
                 <div class="space-y-4">
@@ -912,7 +912,7 @@ $map_image_exists = file_exists($map_image_path);
                     <p class="text-zinc-400 text-sm">
                         Mini Project 2026<br>
                         Computer Science Department<br>
-                        Campus Recovery Network v2.0<br>
+                        Campus Recovery Network v1.0<br>
                         By Group 21.
                     </p>
                 </div>
