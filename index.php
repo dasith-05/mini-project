@@ -464,8 +464,12 @@ $map_image_exists = file_exists($map_image_path);
                 TraceIt .
             </h1>
 
-            <p class="slow-fade-in text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl mx-auto font-mono leading-relaxed uppercase tracking-[0.2em] font-bold" style="animation-delay: 0.5s;">
-                <span class="inline-block text-sky-400">
+            <p class="slow-fade-in text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl mx-auto font-mono leading-relaxed" style="animation-delay: 0.5s;">
+                <span class="inline-block">
+                    A precision-mapped recovery network for campus essentials.
+                </span>
+                <br>
+                <span class="inline-block text-sky-400 font-bold tracking-[0.2em] mt-2">
                     Lost. Found. Secured.
                 </span>
             </p>
@@ -693,6 +697,7 @@ $map_image_exists = file_exists($map_image_path);
             <h1 onclick="window.location.href='index.php'" class="logo-font text-5xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-sky-500/50 drop-shadow-[0_0_15px_rgba(14,165,233,0.3)] cursor-pointer">
                 TraceIt <span class="text-sky-500/80">.</span>
                 <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-500 ml-2 font-sans align-middle opacity-70">v2.0</span>
+                <span class="block text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mt-1 opacity-80">Lost. Found. Secured.</span>
             </h1>
             <div class="flex items-center gap-4 flex-wrap">
                 <a href="top-tracers.php" class="h-[54px] bg-zinc-900/50 border border-zinc-800 text-sky-400 hover:text-sky-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] hover:border-sky-500/50 px-4 rounded-2xl transition-all text-sm font-bold flex items-center gap-2 backdrop-blur-md">
