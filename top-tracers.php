@@ -79,9 +79,11 @@ $rank = 0;
                     Top Tracers
                 </h1>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium">My profile</a>
-                <a href="index.php?logout=1" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl text-sm font-bold">Logout</a>
+            fa-solid fa-circle-user"></i> My Profile
+                </a>
+                <a href="index.php?logout=1" class="bg-zinc-900/50 border border-zinc-800 text-red-500 hover:text-red-400 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:border-red-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-power-off"></i> Logout
+                </a>
             </div>
         </div>
 
