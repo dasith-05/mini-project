@@ -464,9 +464,9 @@ $map_image_exists = file_exists($map_image_path);
                 TraceIt .
             </h1>
 
-            <p class="slow-fade-in text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl mx-auto font-mono leading-relaxed" style="animation-delay: 0.5s;">
-                <span class="inline-block">
-                    TraceIt: A precision-mapped recovery network for campus essentials.
+            <p class="slow-fade-in text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl mx-auto font-mono leading-relaxed uppercase tracking-[0.2em] font-bold" style="animation-delay: 0.5s;">
+                <span class="inline-block text-sky-400">
+                    Lost. Found. Secured.
                 </span>
             </p>
             
