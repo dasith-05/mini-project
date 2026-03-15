@@ -106,7 +106,9 @@ $resolve_count = count($resolved_items);
             <?php if (!empty($_SESSION['user_id'])): ?>
             <div class="flex items-center gap-3">
                 <?php if (!$is_own_profile): ?>
-                    <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="text-sky-400 hover:text-sky-300 text-sm font-medium">My profile</a>
+                    <a href="profile.php?id=<?php echo (int) $_SESSION['user_id']; ?>" class="bg-zinc-900/50 border border-zinc-800 text-sky-400 hover:text-sky-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] hover:border-sky-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-circle-user"></i> My Profile
+                    </a>
                 <?php endif; ?>
                 <a href="index.php" class="bg-zinc-900/50 border border-zinc-800 text-emerald-500 hover:text-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:border-emerald-500/50 px-4 py-2.5 rounded-xl transition-all text-sm font-bold flex items-center gap-2">
                     <i class="fa-solid fa-map"></i> Map
